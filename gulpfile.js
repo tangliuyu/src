@@ -2,7 +2,7 @@
  * @Author: mikey.wanghao 
  * @Date: 2018-12-03 08:58:54 
  * @Last Modified by: mikey.wanghao
- * @Last Modified time: 2018-12-03 10:03:53
+ * @Last Modified time: 2018-12-03 10:08:14
  */
 var fs = require('fs');
 
@@ -20,6 +20,7 @@ var server = require('gulp-webserver');
 
 var minCss = require('gulp-clean-css');
 
+//起服务
 gulp.task('server', function() {
     return gulp.src('src')
         .pipe(server({
@@ -41,19 +42,25 @@ gulp.task('server', function() {
         }));
 });
 
+
+//监听sass
 gulp.task('sass', function() {
     return gulp.src('./src/scss/*.scss')
         .pipe(sass())
-        .pipe(minCss())
+        .pipe(minCss()) //压缩css
         .pipe(gulp.dest('./src/css'))
 });
 
+//监听watch
 gulp.task('watch', function() {
     return gulp.watch('./src/scss/*.scss', gulp.series('sass'))
 });
 
+
 gulp.task('dev', gulp.series('sass', 'server', 'watch'));
 
+
+//压缩js
 gulp.task('uglify', function() {
     return gulp.src('./src/js/*.js')
         .pipe(uglify())
